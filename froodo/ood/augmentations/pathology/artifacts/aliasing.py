@@ -57,22 +57,22 @@ class AliasingAugmentation(
         rescaled_image = image[delta_v:image.shape[0]-delta_v, delta_h:image.shape[1]-delta_h]
 
         right_cutoff = np.zeros_like(rescaled_image)
-        right_cutoff.fill(-1024.0)
+        right_cutoff.fill(0.0)
         right_cutoff[:, :delta_h] = image[delta_v:image.shape[0]-delta_v, image.shape[1]-delta_h:]
         right_cutoff = cv2.resize(right_cutoff, dsize=(512, 512), interpolation=cv2.INTER_CUBIC)
 
         left_cutoff = np.zeros_like(rescaled_image)
-        left_cutoff.fill(-1024.0)
+        left_cutoff.fill(0.0)
         left_cutoff[:, left_cutoff.shape[1]-delta_h:] = image[delta_v:image.shape[0]-delta_v, :delta_h]
         left_cutoff = cv2.resize(left_cutoff, dsize=(512, 512), interpolation=cv2.INTER_CUBIC)
 
         bottom_cutoff = np.zeros_like(rescaled_image)
-        bottom_cutoff.fill(-1024.0)
+        bottom_cutoff.fill(0.0)
         bottom_cutoff[:delta_v, :] = image[image.shape[0]-delta_v:, delta_h:image.shape[1]-delta_h]
         bottom_cutoff = cv2.resize(bottom_cutoff, dsize=(512, 512), interpolation=cv2.INTER_CUBIC)
 
         top_cutoff = np.zeros_like(rescaled_image)
-        top_cutoff.fill(-1024.0)
+        top_cutoff.fill(0.0)
         top_cutoff[top_cutoff.shape[0]-delta_v:, :] = image[:delta_v, delta_h:image.shape[1]-delta_h]
         top_cutoff = cv2.resize(top_cutoff, dsize=(512, 512), interpolation=cv2.INTER_CUBIC)
 

@@ -12,7 +12,7 @@ class SpikeAugmentation(
 ):
     def __init__(self,
                  num_spikes=3,
-                 intensity=10,
+                 intensity=1,
                  sample_intervals=None,
                  severity: SeverityMeasurement = None,
                  keep_ignorred=True, ) -> None:

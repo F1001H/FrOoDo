@@ -11,7 +11,7 @@ class BiasAugmentation(
     OODAugmentation, ArtifactAugmentation, SampableAugmentation
 ):
     def __init__(self,
-                 coefficients=1,
+                 coefficients=0.8,
                  order=3,
                  sample_intervals=None,
                  severity: SeverityMeasurement = None,

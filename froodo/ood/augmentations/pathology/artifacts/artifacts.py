@@ -5,6 +5,7 @@ from scipy import ndimage
 
 import imageio
 from random import randint
+from random import randrange
 import os
 
 from .....data.metadata import *
@@ -76,9 +77,27 @@ class ArtifactAugmentation:
         if ignore_index != None:
             ignore_mask = mask == ignore_index
 
-        mask[from_y:until_y, from_x:until_x][ood_indices] = 0
+        #mask[from_y:until_y, from_x:until_x][ood_indices] = 0
 
         if ignore_index != None:
             mask[ignore_mask] = ignore_index
 
         return src.permute(2, 0, 1), mask
+
+    def overlay(self, overlay_path, src, mask, scale=0.5, intensity=2, location=None):
+        overlay = imageio.imread(overlay_path) / 255.0
+        overlay = cv.resize(overlay, (round(scale * overlay.shape[0]), round(scale * overlay.shape[1])))
+        if location is None:
+            min_x = round(0.25 * src.shape[0])
+            min_y = round(0.25 * src.shape[1])
+            max_x = round(0.75 * src.shape[0]) - overlay.shape[0]
+            max_y = round(0.75 * src.shape[1]) - overlay.shape[1]
+            start_x = randrange(min_x, max_x)
+            start_y = randrange(min_y, max_y)
+        else:
+            start_x = location[0]
+            start_y = location[1]
+        src[start_x:start_x + overlay.shape[0], start_y: start_y + overlay.shape[1]] += intensity * overlay[:, :, 0]
+        return src
+
+
